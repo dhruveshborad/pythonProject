@@ -52,11 +52,9 @@ class CreateAcc(QDialog):
         password = self.lineEditpassword1.text()
         email = self.lineEditusername1.text()
         if self.lineEditpassword1.text() == self.lineEditconfrimpassword1.text() and random_str1 == self.lineEditotp.text():
-
             login = Login()
             widget.addWidget(login)
             widget.setCurrentIndex(widget.currentIndex() + 1)
-
             try:
                 client = pymongo.MongoClient()
                 mydb = client['mydb']
@@ -64,7 +62,6 @@ class CreateAcc(QDialog):
                 data = {'name':email,'password':password}
                 if mycol.insert_one(data):
                     print("Successfully created acc with email: ", email, "and password: ", password)
-
             except Exception as e:
                 print("Something went wrong....", e)
     def beackfunc(self):
@@ -103,7 +100,7 @@ class ForgotPass(QDialog):
         self.lineEditconfrimpassword1.setEchoMode(QtWidgets.QLineEdit.Password)
         self.pushButtonSubmmite.clicked.connect(self.submmitepass)
         self.pushButtonsendotp.clicked.connect(self.sendemail)
-
+        self.pushButtonBack.clicked.connect(self.Backlogin)
     def sendemail(self):
             email = self.lineEditusername2.text()
             client = pymongo.MongoClient()
@@ -146,6 +143,10 @@ class ForgotPass(QDialog):
                 widget.addWidget(login)
                 widget.setCurrentIndex(widget.currentIndex() + 1)
                 print("true")
+    def Backlogin(self):
+        login = Login()
+        widget.addWidget(login)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
 
 app=QApplication(sys.argv)
 mainwindow=Login()
