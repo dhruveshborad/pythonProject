@@ -47,12 +47,11 @@ class CreateAcc(QDialog):
         self.lineEditpassword1.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEditconfrimpassword1.setEchoMode(QtWidgets.QLineEdit.Password)
         self.beackbutton.clicked.connect(self.beackfunc)
-
-
+        self.pushButtonsendotp.clicked.connect(self.sendemail)
     def create_db(self):
         password = self.lineEditpassword1.text()
         email = self.lineEditusername1.text()
-        if self.lineEditpassword1.text() == self.lineEditconfrimpassword1.text():
+        if self.lineEditpassword1.text() == self.lineEditconfrimpassword1.text() and random_str1 == self.lineEditotp.text():
 
             login = Login()
             widget.addWidget(login)
@@ -72,6 +71,29 @@ class CreateAcc(QDialog):
         login = Login()
         widget.addWidget(login)
         widget.setCurrentIndex(widget.currentIndex() + 1)
+    def sendemail(self):
+        digits = [i for i in range(0, 10)]
+        global random_str1
+        random_str1 = ""
+        for i in range(6):
+            index = math.floor(random.random() * 10)
+            random_str1 += str(digits[index])
+        print(random_str1)
+        domainemail = "dhruveshborad007@gmail.com"
+        domainpass = "Dh@#$008"
+        useremail = self.lineEditusername1.text()
+        try:
+            # Create your SMTP session
+            smtp = smtplib.SMTP('smtp.gmail.com', 587)
+            smtp.starttls()
+            smtp.login(domainemail, domainpass)
+            message = random_str1
+            smtp.sendmail(domainemail, useremail, message)
+            smtp.quit()
+            print("Email sent successfully!")
+
+        except Exception as ex:
+            print("Something went wrong....", ex)
 
 class ForgotPass(QDialog):
     def __init__(self):
