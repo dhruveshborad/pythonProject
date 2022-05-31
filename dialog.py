@@ -6,6 +6,7 @@ import pymongo
 import random
 import math
 import smtplib
+from email.message import EmailMessage
 
 class Login(QDialog):
     def __init__(self):
@@ -118,13 +119,17 @@ class ForgotPass(QDialog):
                 domainemail = "dhruveshborad007@gmail.com"
                 domainpass = "Dh@#$008"
                 useremail = self.lineEditusername2.text()
+                subject = "vocadors sending a mail"
+                msg = EmailMessage()
+                msg.set_content('Your Account OTP is: {}'.format(random_str))
                 try:
                     # Create your SMTP session
-                    smtp = smtplib.SMTP('smtp.gmail.com', 587)
-                    smtp.starttls()
-                    smtp.login(domainemail,domainpass )
-                    message = random_str
-                    smtp.sendmail(domainemail, useremail, message)
+                    smtp = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+                    msg = MIMEMultipart()
+                    msg['Subject'] = subject
+                    msg['From'] = domainemail
+                    msg['To'] = useremail
+                    smtp.send_message(msg)
                     smtp.quit()
                     print("Email sent successfully!")
 

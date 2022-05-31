@@ -134,7 +134,7 @@ background-color: rgb(61, 64, 255);</string>
     <string>Submmite</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButtonSubmmite_2">
+  <widget class="QPushButton" name="pushButtonBack">
    <property name="geometry">
     <rect>
      <x>220</x>
